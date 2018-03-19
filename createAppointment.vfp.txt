@@ -1,0 +1,99 @@
+<apex:page standardController="Lead" extensions="CreateAppointmentController" showHeader="false" sidebar="false">
+    <style type="text/css">
+    	.tdsection{width:50%}
+    </style>
+    <script type="text/javascript">    
+    var eventsData = '{!eventsData}';
+    console.log('data: '+eventsData);
+    var obj=[];
+    obj=JSON.parse(eventsData);
+    var obj2=obj;
+    for(var i=0;i<obj.length;i++){
+        obj2[i].start=new Date(obj[i].start); 
+        obj2[i].end=new Date(obj[i].end);    
+    }
+    console.log('obj[]: '+JSON.stringify(obj2));
+    eventsData=obj2;
+    
+    </script>
+    <apex:form >
+    <apex:actionFunction name="createNewAppointment" action="{!createNewAppointment}" rerender="false">
+        <apex:param name="newEventData" value="" assignTo="{!newEventData}" />
+    </apex:actionFunction>
+        </apex:form>
+    <p style="margin:5px 0px 5px 45px;font-size:20px;color:Blue">
+        Create New Appointment
+    </p>
+    <div style="border:2px solid blue;margin:5px 45px 5px 45px;padding:20px"> 
+        <h1>
+            Customer Information 
+        </h1><br />
+        <table class="slds-table slds-table_cell-buffer">
+            <tr>
+                <td class='tdsection'><p>
+                    First Name : {!ld.firstname}
+                    </p></td>
+                <td class='tdsection'><p>
+                    Last Name : {!ld.lastname}
+                    </p></td>
+            </tr>
+            <tr>
+                <td class='tdsection'><p>
+                    Street Address: {!ld.street}</p></td>
+                <td class='tdsection'></td>
+            </tr>
+            <tr>
+                <td class='tdsection'><p>
+                    City  :{!ld.city} &nbsp;&nbsp;&nbsp;
+                    
+                    State : {!ld.state} &nbsp;&nbsp;&nbsp;
+                    
+                    Zipcode: {!ld.postalcode}
+                    </p></td>
+                <td class='tdsection'></td>
+            </tr>
+        </table>       
+    </div>
+    <div style="border:2px solid blue;margin:5px 45px 5px 45px;padding:20px">
+        <h1>
+            Lead Owner
+        </h1><br />
+        <table class="slds-table slds-table_cell-buffer">
+            <tr>
+                <td class='tdsection'><p>
+                    First Name : {!ld.owner.firstname}
+                    </p></td>
+                
+                <td class='tdsection'><p>
+                    Last Name : {!ld.owner.lastname}
+                    </p></td>            	
+            </tr>
+            <tr>
+                <td class='tdsection'><p>
+                    Phone Number : {!ld.owner.phone}
+                    </p></td>
+                
+                <td class='tdsection'><p>
+                    Email Address : {!ld.owner.email}
+                    </p></td>
+                
+            </tr>
+        </table>
+    </div>
+    
+    <div style="border:2px solid blue;margin:5px 45px 5px 45px;padding:20px">
+        <h1>
+            Estimator Calendar
+        </h1>
+        <div>
+            <c:weekViewCalendar textValue="But this is red" textColor="red" />
+        </div>
+    </div>
+    <div style="border:2px solid blue;padding:20px;margin:5px 45px 5px 45px">
+        <center>
+            <apex:form >
+                <apex:commandButton value="Save Appointment" action="{!saveAppointment}"/>
+            </apex:form>        
+            </center>
+    </div>
+</apex:page>
